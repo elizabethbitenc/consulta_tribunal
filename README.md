@@ -11,6 +11,9 @@ $- docker compose -f "docker-compose.yml" up  --build
 
 ## Como usar 
 - Acessar para rodar o crawler http://localhost:5000/rodar-crawler/tribunal/numero_processo
+
+Exemplo: 'http://localhost:5000/rodar-crawler/tjal/0710802-55.2018.8.02.0001'
+
 - Acessar para ver o resultado http://localhost:5000/buscar-processo/tribunal/numero_processo
 
 Exemplos de numeros de processos para TJAL: '0710802-55.2018.8.02.0001', '070704866.2022.8.02.0001'
