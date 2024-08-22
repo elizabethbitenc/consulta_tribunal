@@ -10,8 +10,8 @@ class TJAL(scrapy.Spider):
         super(TJAL, self).__init__(*args, **kwargs)
         if numero_processo:
             self.start_urls = [
-                f'https://esaj.tjce.jus.br/cpopg/show.do?processo.codigo=01Z081I9T0000&processo.foro=1&processo.numero={numero_processo}'
-            ] 
+                f'https://www2.tjal.jus.br/cpopg/show.do?processo.codigo=01000O7550000&processo.foro=1&processo.numero={numero_processo}'
+            ]
         else:
             self.start_urls = []
         self.results = []
@@ -35,12 +35,13 @@ class TJAL(scrapy.Spider):
         }
         self.results.append(item)
 
-        for tr in response.css("#tableTodasPartes tr"):
+        for tr in response.css("#tablePartesPrincipais tr"):
             parte_e_advogado = tr.css("td.nomeParteEAdvogado::text").extract()
             parte_e_advogado = [text.strip() for text in parte_e_advogado if text.strip()]
             
             item= {'parte_e_advogado': parte_e_advogado }
             self.results.append(item)
+
 
         for tr in response.css("#tabelaTodasMovimentacoes tr"):
             data_movimentacao = tr.css("td.dataMovimentacao *::text").extract()
