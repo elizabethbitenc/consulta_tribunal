@@ -1,0 +1,8 @@
+services:
+  consulta:
+    restart: always
+    volumes: 
+      - .:/usr/src/app
+    build: .
+    ports:
+      - "5000:5000"
