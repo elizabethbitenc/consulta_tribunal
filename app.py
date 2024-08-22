@@ -23,11 +23,11 @@ def search_number(tribunal, numero_processo):
             loaded_dict = pickle.load(f)
             return jsonify(loaded_dict)
     elif tribunal.lower() == 'tjce':
-        pass
+        with open(f'data/tjce-{numero_processo}.pkl', 'rb') as f:
+            loaded_dict = pickle.load(f)
+            return jsonify(loaded_dict)
     else:
         return jsonify({'error': 'Tribunal não reconhecido'}), 400
-
-    return jsonify({'status': f'Crawler do {tribunal.upper()} iniciado com sucesso'}), 200
 
 
 @app.route('/rodar-crawler/<string:tribunal>/<string:numero_processo>', methods=['GET'])

@@ -1,7 +1,6 @@
 import scrapy
 from scrapy.crawler import CrawlerProcess
-from scrapy.signalmanager import dispatcher
-from scrapy import signals
+import pickle
 
 class TJCE(scrapy.Spider):
     name = 'TJCE'
@@ -16,6 +15,7 @@ class TJCE(scrapy.Spider):
         else:
             self.start_urls = []
         self.results = []
+        self.numero_processo = numero_processo
 
     def parse(self, response):
         classe = response.css("#classeProcesso::text").extract_first()
@@ -54,13 +54,14 @@ class TJCE(scrapy.Spider):
             }
             self.results.append(item)
 
+        with open(f'data/tjce-{self.numero_processo}.pkl', 'wb') as f:
+            pickle.dump(self.results, f)
+
 def run_spider_tjce(numero_processo):
     process = CrawlerProcess({
         'USER_AGENT': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)'
     })
-
-    spider = TJCE(numero_processo=numero_processo)
-    dispatcher.connect(process.stop, signal=signals.spider_closed)
-    process.crawl(spider)
+    
+    process.crawl(TJCE, numero_processo=numero_processo)
     process.start()
-    return spider.results
+    
